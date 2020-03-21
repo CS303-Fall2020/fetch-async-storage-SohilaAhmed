@@ -13,10 +13,10 @@ import {
 //   import Home from './home';
 
   export default function ReviewDetails({ navigation, route }) {
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState(navigation.getParam('item').title);
 
     const changeHandler = val => {
-      setTitle(navigation.getParam('item').title+val);
+      setTitle(val);
     };
     const f = navigation.getParam('edit');
 
@@ -39,7 +39,13 @@ import {
       
     return (
         <View>
-           <TextInput style={styles.item} onChangeText={changeHandler} defaultValue={ navigation.getParam('item').title } ></TextInput>
+           {/* <TextInput style={styles.item} onChangeText={changeHandler} defaultValue={ navigation.getParam('item').title } ></TextInput> */}
+           <TextInput 
+                style = {styles.item}
+                value={title == '' ?navigation.getParam('item').title:title }
+                onChangeText={(title)=>changeHandler(title)}
+                multiline={true}
+                />        
            <Button onPress={() => f(navigation.getParam('item').id,title)} title='Done' color='coral' /> 
            {/* <Button onPress={() => (submitHandler)} title='Done' color='coral' />  */}
         </View>

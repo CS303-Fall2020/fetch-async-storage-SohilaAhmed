@@ -21,33 +21,23 @@ import AddTodo from "../components/addTodo";
 // import ReviewDetails from "./reviewDetails";
 import Constants from "expo-constants";
 
-// function wait(timeout) {
-//   return new Promise(resolve => {
-//     setTimeout(resolve, timeout);
-//   });
-// }
+
 
 export default function Home({ navigation }) {
 
   
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [refreshing, setRefreshing] = React.useState(false);
-
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-
-  //   wait(2000).then(() => setRefreshing(false));
-  // }, [refreshing]);
+ 
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos?userId=1")
       .then(response => response.json())
       .then(response => {
-        setTodos(response), setLoading(false);
+        setTodos(response), 
+        setLoading(false);
       })
-      .then(json => console.log(json))
-
+      // .then(json => console.log(json))
       .catch(e => {
         console.error(e);
       });
@@ -60,7 +50,7 @@ export default function Home({ navigation }) {
   //   setTodos(item)
 
   // }, [])
-  // if(loading)
+
   useEffect(async () => {
     try {
       await AsyncStorage.setItem("Todos", JSON.stringify(todos));
@@ -89,8 +79,7 @@ export default function Home({ navigation }) {
 
   const pressHandler1 = (item) => {
     navigation.navigate("ReviewDetails", {item, edit});
-    // navigation.push('ReviewDetails');
-  };
+      };
 
   const pressHandler2 = id => {
     setTodos(prevTodos => {
@@ -130,10 +119,19 @@ export default function Home({ navigation }) {
     }
   };
 
-  // const refreshPage = () => {
-  //   window.location.reload(false);
-  // }
-
+  const Refresh = async () => {
+    setLoading(!loading);
+    return fetch("https://jsonplaceholder.typicode.com/todos?userId=1")
+    .then(response => response.json())
+    .then(response => {
+      setTodos(response), 
+      setLoading(false);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+  }
+  
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -146,6 +144,10 @@ export default function Home({ navigation }) {
         <View style={styles.contant}>
           <AddTodo submitHandler={submitHandler} />
           <View style={styles.list}>
+            {(loading)?(
+              <ActivityIndicator size="large" color="coral" />
+            )
+            :( 
             <FlatList
               data={todos}
               renderItem={({ item }) => (
@@ -160,17 +162,10 @@ export default function Home({ navigation }) {
                   // </TouchableOpacity>
               )}
             />
+            )}
           </View>
+        <Button title="Refresh" color="coral"  onPress={Refresh} />
         </View>
-        {/* <ScrollView
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <Text>Pull down to see RefreshControl indicator</Text> */}
-        {/* </ScrollView> */}
-        <Button title="Refresh" color="coral"  />
       </View>
     </TouchableWithoutFeedback>
   );
