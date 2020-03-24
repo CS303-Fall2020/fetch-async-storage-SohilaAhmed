@@ -12,7 +12,7 @@ import {
   } from "react-native";
 //   import Home from './home';
 
-  export default function ReviewDetails({ navigation, route }) {
+  export default function ReviewDetails({ navigation }) {
     const [title, setTitle] = useState(navigation.getParam('item').title);
 
     const changeHandler = val => {
@@ -39,6 +39,7 @@ import {
       
     return (
         <View>
+          {/* <Text> {navigation.getParam('item').title} </Text> */}
            {/* <TextInput style={styles.item} onChangeText={changeHandler} defaultValue={ navigation.getParam('item').title } ></TextInput> */}
            <TextInput 
                 style = {styles.item}

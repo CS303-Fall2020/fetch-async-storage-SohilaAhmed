@@ -8,11 +8,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Button,
-  CheckBox,
   ActivityIndicator,
   AsyncStorage,
-  ScrollView,
-  RefreshControl,
   TouchableOpacity
 } from "react-native";
 // import Header from "../components/header";
@@ -26,6 +23,10 @@ import Constants from "expo-constants";
 export default function Home({ navigation }) {
 
   
+  // const [todos, setTodos] = useState([
+  //   {text:'kjhkjj', key:'1', completed: false}
+  // ]);
+
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
  
@@ -51,24 +52,24 @@ export default function Home({ navigation }) {
 
   // }, [])
 
-  useEffect(async () => {
-    try {
-      await AsyncStorage.setItem("Todos", JSON.stringify(todos));
-    } catch (error) {
-      // Error saving data
-    }
-  }, []);
-  useEffect(async () => {
-    try {
-      const value = await AsyncStorage.getItem("Todos");
-      if (value !== null) {
-        // We have data!!
-        console.log(value);
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  }, []);
+  // useEffect(async () => {
+  //   try {
+  //     await AsyncStorage.setItem("Todos", JSON.stringify(todos));
+  //   } catch (error) {
+  //     // Error saving data
+  //   }
+  // }, []);
+  // useEffect(async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem("Todos");
+  //     if (value !== null) {
+  //       // We have data!!
+  //       console.log(value);
+  //     }
+  //   } catch (error) {
+  //     // Error retrieving data
+  //   }
+  // }, []);
 
 
   const pressHandler = id => {
@@ -164,8 +165,10 @@ export default function Home({ navigation }) {
             />
             )}
           </View>
-        <Button title="Refresh" color="coral"  onPress={Refresh} />
+
         </View>
+
+        <Button title="Refresh" color="coral"  onPress={Refresh} />
       </View>
     </TouchableWithoutFeedback>
   );
